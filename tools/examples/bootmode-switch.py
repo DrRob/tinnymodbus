@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 """
 /*********************************************************************
@@ -51,6 +51,7 @@
 
 import sys
 import logging
+from os import environ
 
 from pymodbus.constants import Endian
 from pymodbus.payload import BinaryPayloadDecoder
@@ -63,8 +64,12 @@ logging.basicConfig()
 log = logging.getLogger()
 log.setLevel(logging.INFO)
 
+port = environ.get('TINNYMODBUS_PORT')
+if port is None:
+    port='/dev/ttyUSB0'
+
 # create connection (boot mode is 9600)
-client = ModbusClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, timeout=1.5)
+client = ModbusClient(method='rtu', port=port, baudrate=9600, timeout=1.5)
 client.connect()
 
 idslave = 0x01

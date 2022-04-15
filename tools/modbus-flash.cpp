@@ -59,6 +59,15 @@
 
 
 /*
+ * Get serial device from optional environment variable.
+ */
+const char* get_serial_dev()
+{
+    const char *dev = getenv("TINNYMODBUS_PORT");
+    return dev == NULL ? "/dev/ttyUSB0" : dev;
+}
+
+/*
  * Compute CRC for message.
  */
 u_int16_t msg_crc( unsigned char *buf, int len )
@@ -196,7 +205,7 @@ int main( int argc, char**argv )
 
     if ( fhex == 0 )
     {
-      printf("Canot open input file [%s]\n", hexfile);
+      printf("Cannot open input file [%s]\n", hexfile);
       exit(-1);
     }
 
@@ -266,13 +275,11 @@ int main( int argc, char**argv )
     int fd;
     int wlen = 0;
 
-    const char *io = "/dev/ttyUSB0";
-
-    fd = open( io, O_RDWR | O_NOCTTY | O_SYNC );
+    fd = open( get_serial_dev(), O_RDWR | O_NOCTTY | O_SYNC );
 
     if ( fd < 0 )
     {
-        printf( "Error opening %s: %s\n", io, strerror(errno) );
+        printf( "Error opening %s: %s\n", get_serial_dev(), strerror(errno) );
         return -1;
     }
 
