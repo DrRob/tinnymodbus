@@ -76,7 +76,7 @@ idslave = 0x01
 
 if len(sys.argv) == 2:
   try:
-    idslave = int(sys.argv[1])
+    idslave = int(sys.argv[1], 0)
   except:
     print ("usage: %s [idslave]" % sys.argv[0])
     sys.exit(-1)

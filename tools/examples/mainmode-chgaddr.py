@@ -73,7 +73,7 @@ client = ModbusClient(method='rtu', port=port, baudrate=38400, timeout=1.5)
 client.connect()
 
 try:
-  slvaddr = int(sys.argv[1])
+  slvaddr = int(sys.argv[1], 0)
   newaddr = int(sys.argv[2])
 except:
   print ("usage: %s [slvaddr] [newaddr]" % sys.argv[0])
